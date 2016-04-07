@@ -15,17 +15,28 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "dummyAPP_TAG";
 
-    public void handleClickMe(View view){
-        long future = System.currentTimeMillis() + 10000;
-        while (System.currentTimeMillis() < future){
-            synchronized (this){
-                try{
-                    wait(future - System.currentTimeMillis());
-                }catch (Exception e){
 
+    public void handleClickMe(View view){
+
+        Runnable run_obj = new Runnable() {
+            @Override
+            public void run() {
+                long future = System.currentTimeMillis() + 10000;
+                while (System.currentTimeMillis() < future){
+                    synchronized (this){
+                        try{
+                            wait(future - System.currentTimeMillis());
+                        }catch (Exception e){
+
+                        }
+                    }
                 }
             }
-        }
+        };
+
+        Thread thread = new Thread(run_obj);
+        thread.start();
+
         TextView textView = (TextView) findViewById(R.id.ltext);
         textView.setText("LOL we waited for nothing");
     }

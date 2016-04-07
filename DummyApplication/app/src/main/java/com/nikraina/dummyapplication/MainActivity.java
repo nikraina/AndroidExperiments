@@ -10,10 +10,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.util.Log;
 import android.widget.TextView;
+import android.os.Handler;
+import android.os.Message;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "dummyAPP_TAG";
+
+    Handler handle = new Handler(){             //Always use the handler object to update the UI
+        @Override
+        public void handleMessage(Message msg) {
+            TextView textView = (TextView) findViewById(R.id.ltext);
+            textView.setText("LOL we waited for nothing");
+        }
+    };
 
 
     public void handleClickMe(View view){
@@ -31,14 +41,14 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 }
+                handle.sendEmptyMessage(0);
             }
         };
 
         Thread thread = new Thread(run_obj);
         thread.start();
 
-        TextView textView = (TextView) findViewById(R.id.ltext);
-        textView.setText("LOL we waited for nothing");
+
     }
 
     @Override
